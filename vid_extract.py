@@ -9,21 +9,15 @@ vid_capture = cv2.VideoCapture("v1.webm")
 if (vid_capture.isOpened() == False):
     print("Error opening the video file")
 else:
-    # Get frame rate information
-    # You can replace 5 with CAP_PROP_FPS as well, they are enumerations
     fps = vid_capture.get(5)
     print('Frames per second : ', fps, 'FPS')
 
-    # Get frame count
-    # You can replace 7 with CAP_PROP_FRAME_COUNT as well, they are enumerations
     frame_count = vid_capture.get(7)
     print('Frame count : ', frame_count)
 
 fc=0
 
 while (vid_capture.isOpened()):
-    # vid_capture.read() methods returns a tuple, first element is a bool
-    # and the second is frame
     ret, frame = vid_capture.read()
     fc+=1
     if fc%10!=0:
