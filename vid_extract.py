@@ -20,7 +20,7 @@ fc=0
 while (vid_capture.isOpened()):
     ret, frame = vid_capture.read()
     fc+=1
-    if fc%10!=0:
+    if fc%15!=0:
         continue
     if ret == True:
         uimg = cv2.UMat(frame)
@@ -38,6 +38,8 @@ while (vid_capture.isOpened()):
                 cv2.rectangle(img_h, (x - 10, y - 10), (x + w + 10, y + h + 10), (0, 255, 0), 2)
                 crop = cv2.UMat(img_h, [y - 10, y + h + 10], [x - 10, x + w + 10])
                 crop = cv2.cvtColor(crop, cv2.COLOR_HSV2BGR)
+                if (w * h < 20000) or (not (0.5 < w / h < 2.0)):
+                    continue
                 cv2.imshow('Frame', crop)
                 cv2.imwrite("img/cap_{}.png".format(fc),crop)
             except:
