@@ -4,7 +4,7 @@ import numpy as np
 tag_l=np.array([80,63,86])
 tag_h=np.array([130,255,255])
 
-vid_capture = cv2.VideoCapture("v1.webm")
+vid_capture = cv2.VideoCapture("v2.webm")
 
 if (vid_capture.isOpened() == False):
     print("Error opening the video file")
@@ -20,8 +20,6 @@ fc=0
 while (vid_capture.isOpened()):
     ret, frame = vid_capture.read()
     fc+=1
-    if fc<8891:
-        continue
     if ret == True:
         uimg = cv2.UMat(frame[50:-30,50:-500,:])
         cv2.imshow('Framew', uimg)
@@ -44,7 +42,7 @@ while (vid_capture.isOpened()):
                 if (w * h < 20000) or (not (0.5 < w / h < 2.0)):
                     continue
                 cv2.imshow('Frame', crop)
-                cv2.imwrite("img/cap_{}.png".format(fc),crop)
+                cv2.imwrite("img2/cap_{}.png".format(fc),crop)
             except:
                 pass
 
