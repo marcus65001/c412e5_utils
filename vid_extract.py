@@ -1,8 +1,8 @@
 import cv2
 import numpy as np
 
-tag_l = np.array([90, 90, 86])
-tag_h = np.array([120, 200, 152])
+tag_l=np.array([80,63,86])
+tag_h=np.array([130,255,255])
 
 vid_capture = cv2.VideoCapture("v1.webm")
 
@@ -20,10 +20,11 @@ fc=0
 while (vid_capture.isOpened()):
     ret, frame = vid_capture.read()
     fc+=1
-    if fc%15!=0:
+    if fc<8891:
         continue
     if ret == True:
-        uimg = cv2.UMat(frame)
+        uimg = cv2.UMat(frame[50:-30,50:-500,:])
+        cv2.imshow('Framew', uimg)
 
         img_h = cv2.cvtColor(uimg, cv2.COLOR_BGR2HSV)
 
@@ -34,9 +35,11 @@ while (vid_capture.isOpened()):
         if len(contours) != 0:
             try:
                 max_contour = max(contours, key=cv2.contourArea)
+                if cv2.contourArea(max_contour)>500*500:
+                    continue
                 x, y, w, h = cv2.boundingRect(max_contour)
-                cv2.rectangle(img_h, (x - 10, y - 10), (x + w + 10, y + h + 10), (0, 255, 0), 2)
-                crop = cv2.UMat(img_h, [y - 10, y + h + 10], [x - 10, x + w + 10])
+                cv2.rectangle(img_h, (x + 10, y + 10), (x + w - 10, y + h - 10), (0, 255, 0), 2)
+                crop = cv2.UMat(img_h, [y + 10, y + h - 10], [x + 10, x + w - 10])
                 crop = cv2.cvtColor(crop, cv2.COLOR_HSV2BGR)
                 if (w * h < 20000) or (not (0.5 < w / h < 2.0)):
                     continue
